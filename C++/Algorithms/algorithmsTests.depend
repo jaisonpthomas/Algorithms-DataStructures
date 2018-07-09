@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1530336265 source:c:\comp_science\algorithms\c++data_structures\algorithms\main.cpp
+	<iostream>
+	"linearSearch.h"
+	"binarySearch.h"
+	"quickSort.h"
+	<vector>
+	<string>
+
+1530320953 c:\comp_science\algorithms\c++data_structures\algorithms\linearsearch.h
+	<vector>
+	<string>
+
+1530320943 c:\comp_science\algorithms\c++data_structures\algorithms\binarysearch.h
+
+1530336342 c:\comp_science\algorithms\c++data_structures\algorithms\quicksort.h
+	<iostream>
+	<algorithm>
+

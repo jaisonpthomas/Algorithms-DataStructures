@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1530242969 source:c:\comp_science\algorithms\c++data_structures\data_structures\tests.cpp
+	<iostream>
+	"StackTemplateStatic.h"
+	<string>
+
+1530235961 c:\comp_science\algorithms\c++data_structures\data_structures\dynamicstack.h
+	<iostream>
+	<string>
+
+1530243010 c:\comp_science\algorithms\c++data_structures\data_structures\stacktemplatestatic.h
+	<iostream>
+
