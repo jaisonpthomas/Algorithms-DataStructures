@@ -43,11 +43,11 @@ class MaxHeap:
 		self.heap = [0]
 		for item in items:
 			self.heap.append(item)
-			self.heap.__floatUp(len(self.heap)-1)
+			self._floatUp(len(self.heap)-1)
 
 	def push(self, item):
 		self.heap.append(item)
-		self.heap.__floatUp(len(self.heap)-1)
+		self.heap._floatUp(len(self.heap)-1)
 
 	def peek(self):
 		if len(self.heap) >=1:
@@ -56,27 +56,27 @@ class MaxHeap:
 			return False
 
 	def pop(self):
-		if len(self.heap) == 2:
+		if len(self.heap) > 1:
+			self._swap(1, len(self.heap)-1)
 			max = self.heap.pop()
-		elif len(self.heap > 2):
-			self.__swap(1, len(self.heap)-1)
-			max = self.heap.pop()
-			self.__bubbleDown(1)
+			self._bubbleDown(1)
+			return max
 		else:
-			max = False
-		return max
+			return False
 
-	def __swap(self, i, j):
+	def _swap(self, i, j):
 		self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
 
-	def __floatUp(self, index):
-		parent = index // 2
-		if index <= 1: return
-		elif self.heap[index] > self.heap[parent]:
-			self.__swap(self, index, parent)
-			self.__floatUp(parent)
+	def _floatUp(self, index):
+		if index <= 1:
+			return
 
-	def __bubbleDown(self, index):
+		parent = index // 2
+		if self.heap[index] > self.heap[parent]:
+			self._swap(index, parent)
+			self._floatUp(parent)
+
+	def _bubbleDown(self, index):
 		left = index * 2
 		right = index * 2 + 1
 		largest = index
@@ -85,8 +85,8 @@ class MaxHeap:
 		if len(self.heap) > right and self.heap[right] > self.heap[largest]:
 			largest = right
 		if largest != index:
-			self.__swap(index, largest)
-			self.__bubbleDown(largest)
+			self._swap(index, largest)
+			self._bubbleDown(largest)
 
 
 class linkedListQueue:

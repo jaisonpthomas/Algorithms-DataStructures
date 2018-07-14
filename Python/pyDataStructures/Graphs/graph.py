@@ -127,6 +127,24 @@ def DFS(g, u, discovered):
             discovered[v] = e
             DFS(g, v, discovered)
 
+    """
+
+    * Implementation that doesn't require client to provide initial dict.
+    * Will return the completed DFS dictionary.
+
+
+        def DFS(g, u):
+            def DFSHelper(g, u, discovered):
+                for e in g.incidentEdges(u):
+                    v = e.opposite(u)
+                    if v not in discovered:
+                        discovered[v] = e
+                        DFSHelper(g, v, discovered)
+            discovered = {u: None}
+            DFSHelper(g, u, discovered)
+            return discovered
+    """
+
 def BFS(g, s, discovered):
     queue = [s]
     while len(queue):
@@ -169,3 +187,44 @@ def topologicalSort(g):
                 ready.append(v)
 
     return topo
+
+def dijkstra(g, src):
+
+    d = {}
+    cloud = {}
+    pq = AdaptableHeapPriorityQueue()
+    pqlocator = {}
+
+    for v in gvertices():
+        if v is src:
+            d[v] = 0
+        else:
+            d[v] = float('inf')
+        pqlocator[v] = pq.add(d[v],v)
+
+    while not pq.isEmpty():
+        key, u = pq.removeMin()
+        cloud[u] = key
+        del pqlocator[u]
+
+        for e in g.incidientEdges(u):
+            v = e.opposite(u)
+            if v not in cloud:
+                wgt = e.element()
+                if d[u] + wgt < d[v]:
+                    d[v] = d[u] + wgt
+                    pq.update(pqlocator[v], d[v], v)
+
+    return cloud
+
+def shortestPathTree(g, src, d):
+    tree = {}
+    for vertex in d:
+        if vertex is not src:
+            for e in g.incidientEdges(vertex, False):
+                u = e.opposite(v)
+                wgt = e.element()
+                if d[v] = d[u] + wgt:
+                    tree[v] = e
+    return tree
+
