@@ -170,21 +170,21 @@ def constructPath(u, v, discovered):
 
 def topologicalSort(g):
     topo = []
-    ready = []
+    readyStack = []
     inCount = {}
 
     for u in g.vertices():
         inCount[u] = g.degree(u, False)
         if inCount[u] == 0:
-            ready.append(u)
+            readyStack.append(u)
     while len(ready):
-        u = ready.pop()
+        u = readyStack.pop()
         topo.append(u)
         for e in g.incidentEdges(u):
             v = e.opposite(u)
             inCount[v] -= 1
             if inCount[v] == 0:
-                ready.append(v)
+                readyStack.append(v)
 
     return topo
 

@@ -21,7 +21,7 @@ private:
     void deleteNode(int, TreeNode*&);
     void makeDeletion(TreeNode*&);
     
-    int getHeight(TreeNode*)
+    int getHeight(TreeNode*);
 
     //DisplayFunctions
     void displayInOrder(TreeNode*) const;
@@ -32,7 +32,7 @@ private:
 
 public:
     //Constructor
-    IntBinaryTree();
+    IntBinaryTree()
     { root = nullptr; }                         //FUTURE: NEED TO IMPLEMENT COPY CONSTRUCTOR
     //Destructor
     ~IntBinaryTree()
@@ -137,16 +137,16 @@ void IntBinaryTree::makeDeletion(TreeNode*& delNode)
 
 bool IntBinaryTree::searchNode(int searchVal)
 {
-    TreeNode localRoot = root;
+    TreeNode* localRoot = root;
 
     while(localRoot)
     {
-        if(num == localRoot->value)
+        if(searchVal == localRoot->value)
             return true;
-        else if(num > localRoot->value)
-            localRoot = localRoot->left;
-        else
+        else if(searchVal > localRoot->value)
             localRoot = localRoot->right;
+        else
+            localRoot = localRoot->left;
     }
     return false;
 }
