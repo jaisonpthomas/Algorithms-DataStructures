@@ -19,5 +19,5 @@ def fibEfficientDict(n):
         fibDict[i] = fibDict[i-1] + fibDict[i-2]
     return fibDict[n]
 
-fibArrayAnswer = fibEfficientArray(1000000)
-fibDictAnswer = fibEfficientDict(1000000)
+fibArrayAnswer = fibEfficientArray(1000)
+fibDictAnswer = fibEfficientDict(1000)

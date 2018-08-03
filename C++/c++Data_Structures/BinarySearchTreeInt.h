@@ -4,7 +4,7 @@
 #ifndef INT_BINARY_SEARCH_TREE_H
 #define INT_BINARY_SEARCH_TREE_H
 
-class IntBinaryTree
+class IntBinarySearchTree
 {
 private:
     struct TreeNode
@@ -15,7 +15,7 @@ private:
     };
     TreeNode* root;
 
-    void insert(TreeNode*&, TreeNode*&);        //TreeNode*& creates a direct-reference to a TreeNode*
+    void insertNode(TreeNode*&, TreeNode*&);        //TreeNode*& creates a direct-reference to a TreeNode*
     //DeleteFunctions
     void destroySubTree(TreeNode*);
     void deleteNode(int, TreeNode*&);
@@ -32,15 +32,15 @@ private:
 
 public:
     //Constructor
-    IntBinaryTree()
+    IntBinarySearchTree()
     { root = nullptr; }                         //FUTURE: NEED TO IMPLEMENT COPY CONSTRUCTOR
     //Destructor
-    ~IntBinaryTree()
+    ~IntBinarySearchTree()
     { destroySubTree(root); }
 
-    void insertNode(int);
+    void insert(int);
     void remove(int);
-    void searchNode(int);
+    void search(int);
 
     int getHeight()
     { getHeight(root); }
@@ -53,7 +53,7 @@ public:
     { displayPostOrder(root); }
 };
 
-void IntBinaryTree::insertNode(int num)
+void IntBinarySearchTree::insert(int num)
 {
     TreeNode* newNode = new TreeNode;
     newNode->value = num;
@@ -62,7 +62,7 @@ void IntBinaryTree::insertNode(int num)
     insert(root, newNode);
 }
 
-void IntBinaryTree::insert(TreeNode*& root, TreeNode*& newNode)
+void IntBinarySearchTree::insertNode(TreeNode*& root, TreeNode*& newNode)
 {
     if(!root)
         root = newNode;
@@ -72,12 +72,12 @@ void IntBinaryTree::insert(TreeNode*& root, TreeNode*& newNode)
         insert(root->right, newNode);
 }
 
-void IntBinaryTree::remove(int num)
+void IntBinarySearchTree::remove(int num)
 {
     deleteNode(num, root);
 }
 
-void IntBinaryTree::deleteNode(int num, TreeNode*& localRoot)
+void IntBinarySearchTree::deleteNode(int num, TreeNode*& localRoot)
 {
     if(num < localRoot->value)
         deleteNode(num, localRoot->left);
@@ -89,21 +89,21 @@ void IntBinaryTree::deleteNode(int num, TreeNode*& localRoot)
         cout << "Cannot delete value from tree: not currently present in list"
 }
 
-void IntBinaryTree::makeDeletion(TreeNode*& delNode)
+void IntBinarySearchTree::makeDeletion(TreeNode*& delNode)
 {
     TreeNode* temp = nullptr;
 
     if(!delNode)
         cout << "Cannot delete empty node" << endl;
     
-    //Deleting Node with 0-1 Children
+    //Deleting Node with 0-1 Children (left child)
     else if(!(delNode->right))
     {
         temp = delNode;
         delNode = delNode->left;
         delete temp;
     }
-    //Deleting Node with 1 Child
+    //Deleting Node with 1 right Child
     else if(!(delNode->left))
     {
         temp = delNode;
@@ -135,7 +135,7 @@ void IntBinaryTree::makeDeletion(TreeNode*& delNode)
     }
 }
 
-bool IntBinaryTree::searchNode(int searchVal)
+bool IntBinarySearchTree::search(int searchVal)
 {
     TreeNode* localRoot = root;
 
@@ -151,7 +151,7 @@ bool IntBinaryTree::searchNode(int searchVal)
     return false;
 }
 
-int IntBinaryTree::getHeight (TreeNode* nodePtr)
+int IntBinarySearchTree::getHeight (TreeNode* nodePtr)
 {
     if(!nodePtr)
         return 0;
@@ -159,7 +159,7 @@ int IntBinaryTree::getHeight (TreeNode* nodePtr)
         return 1 + max(getHeight(nodePtr->left), getHeight(nodePtr->right);
 }
 
-void IntBinaryTree::displayInOrder(TreeNode* root) const
+void IntBinarySearchTree::displayInOrder(TreeNode* root) const
 {
     if(root)
     {
@@ -169,7 +169,7 @@ void IntBinaryTree::displayInOrder(TreeNode* root) const
     }
 }
 
-void IntBinaryTree::displayPreOrder(TreeNode* root) const
+void IntBinarySearchTree::displayPreOrder(TreeNode* root) const
 {
     if(root)
     {
@@ -179,7 +179,7 @@ void IntBinaryTree::displayPreOrder(TreeNode* root) const
     }
 }
 
-void IntBinaryTree::displayPostOrder(TreeNode* root) const
+void IntBinarySearchTree::displayPostOrder(TreeNode* root) const
 {
     if(root)
     {

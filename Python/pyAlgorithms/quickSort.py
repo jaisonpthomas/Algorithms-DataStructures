@@ -1,21 +1,27 @@
-def partition(A, start, last):
-    pivot = A[last];
-    pIndex = start;
+import random
 
-    for j in range(start, last):
-        if A[j] <= pivot:
-            A[j], A[pIndex] = A[pIndex], A[j]
-            pIndex += 1
-    A[pIndex], A[last] = A[last], A[pIndex]
-    
-    return pIndex
+def quickSort(arr):
 
-def quickSort(A, start, last):
-    if start < last:
-        pIndex = partition(A, start, last)
-        quickSort(A, start, pIndex-1)
-        quickSort(A, pIndex+1, last)
+    def partition(arr, start, last):
+        pivot = arr[last]
+        pIndex = start
 
+        for j in range(start, last):
+            if arr[j] <= pivot:
+                arr[j], arr[pIndex] = arr[pIndex], arr[j]
+                pIndex += 1
+        arr[pIndex], arr[last] = arr[last], arr[pIndex]
+        
+        return pIndex
 
-alpha = [1,5,4,2,3, 0, -3, -10, 7]
-quickSort(alpha, 0, len(alpha)-1)
+    def quickSortHelper(arr, start, last):
+        if start < last:
+            pIndex = partition(arr, start, last)
+            quickSortHelper(arr, start, pIndex-1)
+            quickSortHelper(arr, pIndex+1, last)
+
+    random.shuffle(arr)
+    quickSortHelper(arr, 0, len(arr)-1)
+
+testList = [1,5,4,2,3, 0, -3, -10, 7]
+quickSort(testList)

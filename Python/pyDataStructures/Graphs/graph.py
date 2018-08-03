@@ -4,6 +4,8 @@ from Goodrich, Tammasia, & Goldwasser's graph implementation in
 'Data Structures and Algorithms in Python'
 """
 
+import heapq
+
 class Vertex:
     __slots__ = '_element'
 
@@ -18,6 +20,9 @@ class Vertex:
 
     def __str__(self):
         return str(self._element)
+
+    def __lt__(self, other):
+        return self._element < other._element
 
 class Edge:
     __slots__ = '_origin', '_destination', '_element'
@@ -57,8 +62,8 @@ class Graph:
         output = ""
         for vertex in self._outgoing:
             output += str(vertex) + "->  ["
-            for vertex in self._outgoing[vertex]:
-                output += (str(vertex) + ", ")
+            for secondaryVertex in self._outgoing[vertex]:
+                output += (str(secondaryVertex) + ", ")
             output = output[:-2]
             if output[-1] != " ":
                 output += "]"
@@ -120,40 +125,29 @@ class Graph:
 
 ##graph traversal functions
 
-def DFS(g, u, discovered):
-    for e in g.incidentEdges(u):
-        v = e.opposite(u)
-        if v not in discovered:
-            discovered[v] = e
-            DFS(g, v, discovered)
-
-    """
-
-    * Implementation that doesn't require client to provide initial dict.
-    * Will return the completed DFS dictionary.
-
-
-        def DFS(g, u):
-            def DFSHelper(g, u, discovered):
-                for e in g.incidentEdges(u):
-                    v = e.opposite(u)
-                    if v not in discovered:
-                        discovered[v] = e
-                        DFSHelper(g, v, discovered)
-            discovered = {u: None}
-            DFSHelper(g, u, discovered)
-            return discovered
-    """
-
-def BFS(g, s, discovered):
-    queue = [s]
-    while len(queue):
-        u = queue.pop(0)
+def DFS(g, s):
+    discovered = {s:None}
+    stack = [s]
+    while len(stack):
+        u = stack.pop()
         for e in g.incidentEdges(u):
             v = e.opposite(u)
             if v not in discovered:
                 discovered[v] = e
-                queue.append(v)
+                stack.append(v)
+    return discovered
+
+def BFS(g, s, discovered):
+    level = [s]
+    while len(level):
+        nextLevel = []
+        for u in level:
+            for e in g.incidentEdges(u):
+                v = e.opposite(u)
+                if v not in discovered:
+                    discovered[v] = e
+                    nextLevel.append(v)
+        level = nextLevel
 
 def constructPath(u, v, discovered):
     path = []
@@ -169,12 +163,16 @@ def constructPath(u, v, discovered):
     return path
 
 def topologicalSort(g):
+    #Self-Notes:
+    #get incoming connection #s
+    #pop 0-reqs, and subtract 1 in its pre-req cases
+    #if anything's zero, throw it on the stack
     topo = []
     readyStack = []
     inCount = {}
 
     for u in g.vertices():
-        inCount[u] = g.degree(u, False)
+        inCount[u] = g.degree(u, False)         #incoming connects
         if inCount[u] == 0:
             readyStack.append(u)
     while len(ready):
@@ -188,9 +186,56 @@ def topologicalSort(g):
 
     return topo
 
+def shortestPath(g, start, finish, returnString = True):
+
+    distances = {}
+    previous = {}
+    nodesPQ = []
+
+    for vertex in g.vertices():
+        if vertex is start:
+            distances[vertex] = 0
+        else:
+            distances[vertex] = float('inf')
+        heapq.heappush(nodesPQ, [distances[vertex],vertex])
+        previous[vertex] = None
+
+    while len(nodesPQ):        
+        smallest = heapq.heappop(nodesPQ)[1]
+        if smallest is finish:
+            path = []
+            while previous[smallest]:
+                path.append(smallest)
+                smallest = previous[smallest]
+            path.append(start)
+            path.reverse()
+            if not returnString:
+                return path
+            else:
+                stringPath = []
+                for vertex in path:
+                    stringPath.append(str(vertex))
+                return stringPath
+                
+        if distances[smallest] == float('inf'):
+            break
+
+        for e in g.incidentEdges(smallest):
+            v = e.opposite(smallest)
+            altPathLen = distances[smallest] + e.element()
+            if altPathLen < distances[v]:
+                distances[v] = altPathLen
+                previous[v] = smallest
+                for n in nodesPQ:
+                    if n[1] == v:
+                        n[0] = altPathLen
+                        break
+        heapq.heapify(nodesPQ)
+
+"""
 def dijkstra(g, src):
 
-    d = {}
+    d= {}
     cloud = {}
     pq = AdaptableHeapPriorityQueue()
     pqlocator = {}
@@ -224,7 +269,7 @@ def shortestPathTree(g, src, d):
             for e in g.incidientEdges(vertex, False):
                 u = e.opposite(v)
                 wgt = e.element()
-                if d[v] = d[u] + wgt:
+                if d[v] == d[u] + wgt:
                     tree[v] = e
     return tree
-
+"""

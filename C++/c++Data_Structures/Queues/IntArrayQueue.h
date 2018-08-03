@@ -27,7 +27,7 @@ public:
     void dequeue(int&);
     bool isEmpty() const;
     bool isFull() const;
-    void clear;
+    void clear();
 };
 
 IntArrayQueue::IntArrayQueue(int s)

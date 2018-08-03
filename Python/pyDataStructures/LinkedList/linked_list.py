@@ -1,31 +1,49 @@
-class Node:
-	def __init__(self, data=None):
+class ListNode:
+	def __init__(self, data, next=None):
 		self.data = data
-		self.next = None
+		self.next = next
 
-class Linked_list:
+class LinkedList:
 	def __init__(self):
-		self.head=node()
+		self.head = None
+		self.tail = None
+		self.size = 0
 
-	def append(self, data):
-		new_node = node(data)
-		cur = self.head
-		while cur.next != None:
-			cur = cur.next
-		cur.next = new_node
+	def __len__(self):
+		return self.size
 
-	def length(self):
-		cur = self.head
-		total = 0
-		while cur.next != None
-			total += 1
-			cur = cur.next
-		return total
+	def add(self, newData):
+		newNode = ListNode(newData):
+		self.tail.next = newNode
+		self.tail = self.tail.next
+		self.size += 1
 
-	def display(self):
-		elems = []
-		cur_node = self.head
-		while cur.next != None:
-			cur_node = cur.next
-			elems.append(cur_node.data)
-		print(elems)
+	def remove(self, removeData):
+		currNode = self.head
+		prevNode = None
+
+		while currNode and currNode != removeData:
+			prevNode = currNode
+			currNode = currNode.next
+
+		if currNode is None:
+			return False
+		elif currNode is self.head:
+			self.head = self.head.next
+		else:
+			prevNode.next = currNode.next
+
+		self.size -= 1
+		return True
+
+	def find(self, findData):
+		currNode = self.head
+
+		while currNode and currNode != findData:
+			currNode = currNode.next
+
+		if currNode:
+			return True
+
+		else:
+			return False

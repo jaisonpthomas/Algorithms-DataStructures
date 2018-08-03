@@ -1,11 +1,16 @@
 from graph import *
 
-def DFS(g, u, discovered):
-    for e in g.incidentEdges(u):
-        v = e.opposite(u)
-        if v not in discovered:
-            discovered[v] = e
-            DFS(g, v, discovered)
+def DFS(g, s):
+    discovered = {s:None}
+    stack = [s]
+    while len(stack):
+        u = stack.pop()
+        for e in g.incidentEdges(u):
+            v = e.opposite(u)
+            if v not in discovered:
+                discovered[v] = e
+                stack.append(v)
+    return discovered
 
 def constructPath(u, v, discovered):
     path = []
@@ -65,8 +70,7 @@ g.insertEdge(SFO, LAX)
 #print(g.edgeCount())
 
 ##DFS Tests
-resultDFS = {BOS: None}
-DFS(g, BOS, resultDFS)
+resultDFS = DFS(g, BOS)
 
 print("-POINT-", "-ROUTE-", sep = "   ")
 print()
@@ -83,20 +87,21 @@ print()
 
         
 def BFS(g, s, discovered):
-    queue = [s]
-    while len(queue):
-        u = queue.pop(0)
-        for e in g.incidentEdges(u):
-            v = e.opposite(u)
-            if v not in discovered:
-                discovered[v] = e
-                queue.append(v)
+    level = [s]
+    while len(level):
+        nextLevel = []
+        for u in level:
+            for e in g.incidentEdges(u):
+                v = e.opposite(u)
+                if v not in discovered:
+                    discovered[v] = e
+                    nextLevel.append(v)
+        level = nextLevel
 
 
 
 
-resultBFS = {BOS: None}
-BFS(g, BOS, resultBFS)
+resultBFS = BFS(g, BOS)
 print("*********BFS**********")
 print()
 

@@ -138,8 +138,8 @@ void LinkedList<T>::deleteNode(T searchValue)
 
     if(!head)
         cout << "Cannot run deleteNode - list is empty";
-        return;
-    if(head->value == searchValue)
+    
+    else if(head->value == searchValue)
     {
         currNode = head->next;
         delete head;

@@ -32,11 +32,11 @@ class ArrayQueue:
         self._size -= 1
         return answer
 
-    def enqueue(self):
+    def enqueue(self, item):
         if self._size == len(self._data)
-           s gelf._resize(2 * len(self._data))
-        avail = (self._front + self._size) & len(self._data)
-        self._data[avail] = e
+           self._resize(2 * len(self._data))
+        newBack = (self._front + self._size) % len(self._data)
+        self._data[newBack] = item
         self._size += 1
 
     def _resize(self, cap):
