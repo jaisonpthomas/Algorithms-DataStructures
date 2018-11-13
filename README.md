@@ -1,3 +1,3 @@
 # Algorithms-DataStructures
 
-Implementation of common Algorithms/Data Structures in Python and C++.
+Implementation of a variety of Algorithms/Data Structures in Python and C++.
